@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html>
+
+   <head>
+      <title>Algebraic Chess Notation</title>
+
+   </head>
+
+   <body style="background-color:#1b365d;">
+
+<!-- HTML Code -->
+<h1 style="font-family:Arial, Helvetica, sans-serif;color:#d0d3d4;margin:auto;text-align: center;"> Algebraic Chess Notation Generator</h1>
+<hr color=#d0d3d4 width="30%">
+<div id="pieces" style="font-family:Arial, Helvetica, sans-serif;color:#d0d3d4;margin:auto;text-align: center;"> 
+<label for="piece"></label>
+<select id="piece" onchange="changepiece()" style="background-color:#d0d3d4;font-family:Arial, Helvetica, sans-serif;color:#1b365d;font-size:150%;">
+  <option value="">Which piece did you move?</option>
+  <option value="K">King</option>
+  <option value="Q">Queen</option>
+  <option value="R">Rook</option>
+  <option value="B">Bishop</option>
+  <option value="N">Knight</option>
+  <option value="P">Pawn</option>
+</select>
+<br>
+</div>
+
+<div id="castling" style="display:none;font-family:Arial, Helvetica, sans-serif;color:#d0d3d4;margin:auto;text-align: center;">
+  <label for="castle"></label>
+  <select id="castle" onchange="changecastle()" style="background-color:#d0d3d4;font-family:Arial, Helvetica, sans-serif;color:#1b365d;font-size:150%;">
+    <option value="">Is your King making a normal move or castling?</option>
+    <option value="normal">Normal move</option>
+    <option value="0-0">Kingside Castle</option>
+    <option value="0-0-0">Queenside Castle</option>
+  </select>
+<br>
+</div>
+
+
+<div id="originranking" style="display:none;font-family:Arial, Helvetica, sans-serif;color:#d0d3d4;margin:auto;text-align: center;">
+  <label for="originrank" ></label>
+  <select id="originrank" onchange="changeoriginrank()" style="background-color:#d0d3d4;font-family:Arial, Helvetica, sans-serif;color:#1b365d;font-size:150%;">
+    <option value="">Select origin rank</option>
+    <option value="1">1</option>
+    <option value="2">2</option>
+    <option value="3">3</option>
+    <option value="4">4</option>
+    <option value="5">5</option>
+    <option value="6">6</option>
+    <option value="7">7</option>
+    <option value="8">8</option>
+  </select>
+<br>
+</div>
+
+
+<div id="originfiling" style="display:none;font-family:Arial, Helvetica, sans-serif;color:#d0d3d4;margin:auto;text-align: center;">
+  <label for="originfile" ></label>
+  <select id="originfile" onchange="changeoriginfile()" style="background-color:#d0d3d4;font-family:Arial, Helvetica, sans-serif;color:#1b365d;font-size:150%;">
+    <option value="">Select origin file</option>
+    <option value="a">A</option>
+    <option value="b">B</option>
+    <option value="c">C</option>
+    <option value="d">D</option>
+    <option value="e">E</option>
+    <option value="f">F</option>
+    <option value="g">G</option>
+    <option value="h">H</option>
+  </select>
+<br>
+</div>
+
+
+<div id="destinationranking" style="display:none;font-family:Arial, Helvetica, sans-serif;color:#d0d3d4;margin:auto;text-align: center;">
+  <label for="destinationrank" ></label>
+  <select id="destinationrank" onchange="changedestinationrank()" style="background-color:#d0d3d4;font-family:Arial, Helvetica, sans-serif;color:#1b365d;font-size:150%;">
+    <option value="">Select destination rank</option>
+    <option value="1">1</option>
+    <option value="2">2</option>
+    <option value="3">3</option>
+    <option value="4">4</option>
+    <option value="5">5</option>
+    <option value="6">6</option>
+    <option value="7">7</option>
+    <option value="8">8</option>
+  </select>
+<br>
+</div>
+
+<div id="destinationfiling" style="display:none;font-family:Arial, Helvetica, sans-serif;color:#d0d3d4;margin:auto;text-align: center;">
+  <label for="destinationfile" ></label>
+  <select id="destinationfile" onchange="changedestinationfile()" style="background-color:#d0d3d4;font-family:Arial, Helvetica, sans-serif;color:#1b365d;font-size:150%;">
+    <option value="">Select destination file</option>
+    <option value="a">A</option>
+    <option value="b">B</option>
+    <option value="c">C</option>
+    <option value="d">D</option>
+    <option value="e">E</option>
+    <option value="f">F</option>
+    <option value="g">G</option>
+    <option value="h">H</option>
+  </select>
+<br>
+</div>
+
+<div id="ambiguitystate" style="display:none;font-family:Arial, Helvetica, sans-serif;color:#d0d3d4;margin:auto;text-align: center;">
+  <label for="ambiguity" ></label>
+  <select id="ambiguity" onchange="changeambiguity()" style="background-color:#d0d3d4;font-family:Arial, Helvetica, sans-serif;color:#1b365d;font-size:150%;">
+    <option value="">Could you have moved another of your pieces of the same type to that destination?</option>
+    <option value="yes">Yes</option>
+    <option value="no">No</option>
+  </select>
+<br>
+</div>
+
+<div id="ambiguityfiling" style="display:none;font-family:Arial, Helvetica, sans-serif;color:#d0d3d4;margin:auto;text-align: center;">
+  <label for="ambiguityfile" ></label>
+  <select id="ambiguityfile" onchange="changeambiguityfile()" style="background-color:#d0d3d4;font-family:Arial, Helvetica, sans-serif;color:#1b365d;font-size:150%;">
+    <option value="">Does specifying origin file remove ambiguity?</option>
+    <option value="yes">Yes</option>
+    <option value="no">No</option>
+  </select>
+<br>
+</div>
+
+<div id="ambiguityranking" style="display:none;font-family:Arial, Helvetica, sans-serif;color:#d0d3d4;margin:auto;text-align: center;">
+  <label for="ambiguityrank" ></label>
+  <select id="ambiguityrank" onchange="changeambiguityrank()" style="background-color:#d0d3d4;font-family:Arial, Helvetica, sans-serif;color:#1b365d;font-size:150%;">
+    <option value="">Does specifying origin rank remove ambiguity?</option>
+    <option value="yes">Yes</option>
+    <option value="no">No</option>
+  </select>
+<br>
+</div>
+
+<div id="capturing" style="display:none;font-family:Arial, Helvetica, sans-serif;color:#d0d3d4;margin:auto;text-align: center;">
+  <label for="capture" ></label>
+  <select id="capture" onchange="changecapture()" style="background-color:#d0d3d4;font-family:Arial, Helvetica, sans-serif;color:#1b365d;font-size:150%;">
+    <option value="">Did you capture a piece?</option>
+    <option value="x">Yes</option>
+    <option value="">No</option>
+  </select>
+<br>
+</div>
+
+<div id="pawnpromoting" style="display:none;font-family:Arial, Helvetica, sans-serif;color:#d0d3d4;margin:auto;text-align: center;">
+  <label for="promotion" ></label>
+  <select id="promotion" onchange="changepromotion()" style="background-color:#d0d3d4;font-family:Arial, Helvetica, sans-serif;color:#1b365d;font-size:150%;">
+    <option value="">How was Pawn promoted?</option>
+    <option value="=Q">Queen</option>
+    <option value="=R">Rook</option>
+    <option value="=N">Knight</option>
+    <option value="=B">Bishop</option>
+  </select>
+<br>
+</div>
+
+<div id="checking" style="display:none;font-family:Arial, Helvetica, sans-serif;color:#d0d3d4;margin:auto;text-align: center;">
+  <label for="check" ></label>
+  <select id="check" onchange="changecheck()" style="background-color:#d0d3d4;font-family:Arial, Helvetica, sans-serif;color:#1b365d;font-size:150%;">
+    <option value="">Did you put opponent King in check or checkmate?</option>
+    <option value="">No</option>
+    <option value="+">Check</option>
+    <option value="#">Checkmate</option>
+  </select>
+</div>
+
+<div id="result" style="display:none;font-family:Arial, Helvetica, sans-serif;font-size:300%;color:#d0d3d4;margin:auto;text-align: center;"></div>
+
+<br>
+<button type="submit" onClick="refreshPage()" style="display:block;margin:auto;background-color:#d0d3d4;font-family:Arial, Helvetica, sans-serif;color:#1b365d;font-size:200%;font-weight:bolder;border-radius: 15%;">Start Over</button>
+<br>
+
+
+</body>
+
+<script type = "text/JavaScript">
+// JavaScript Code
+function changepiece() {
+  const selectedpiece = document.getElementById("piece").value;
+  //alert(selectedpiece);
+  document.getElementById("piece").disabled = true;
+  if (selectedpiece == "K"){
+    castling.style.display = "block";
+
+    
+  } else {
+    originranking.style.display = "block";
+
+  }
+  pieces.style.display = "none";
+}
+
+function changecastle() {
+  const selectedcastle = document.getElementById("castle").value;
+  //alert(selectedcastle);
+  document.getElementById("castle").disabled = true;
+  if(selectedcastle == "normal"){
+    originranking.style.display = "block";
+
+
+   } else {
+    checking.style.display = "block";
+
+   }
+   castling.style.display = "none";
+}
+
+function changeoriginrank(){
+  const selectedoriginrank = document.getElementById("originrank").value;
+  //alert(selectedoriginrank);
+  document.getElementById("originrank").disabled = true;
+  originfiling.style.display = "block";
+  originranking.style.display = "none";
+}
+
+function changeoriginfile(){
+  const selectedoriginfile = document.getElementById("originfile").value;
+  //alert(selectedoriginfile);
+  document.getElementById("originfile").disabled = true;
+  destinationranking.style.display = "block";
+  originfiling.style.display = "none";
+}
+
+function changedestinationrank(){
+  const selecteddestinationrank = document.getElementById("destinationrank").value;
+  //alert(selecteddestinationrank);
+  document.getElementById("destinationrank").disabled = true;
+  destinationfiling.style.display = "block";
+  destinationranking.style.display = "none";
+}
+
+function changedestinationfile(){
+  const selecteddestinationfile = document.getElementById("destinationfile").value;
+  //alert(selecteddestinationfile);
+  document.getElementById("destinationfile").disabled = true;
+  if(document.getElementById("piece").value != "K" && document.getElementById("piece").value != "P"){
+   ambiguitystate.style.display = "block";
+  } else {
+   capturing.style.display = "block";
+  }
+  destinationfiling.style.display = "none";
+}
+
+function changeambiguity(){
+  const selectedambiguity = document.getElementById("ambiguity").value;
+  //alert(selectedambiguity);
+  document.getElementById("ambiguity").disabled = true;
+  if(selectedambiguity == "yes"){
+   ambiguityfiling.style.display = "block";
+  } else{
+  capturing.style.display = "block";    
+  }
+  ambiguitystate.style.display = "none";
+}
+
+function changeambiguityfile(){
+  const selectedambiguityfile = document.getElementById("ambiguityfile").value;
+  //alert(selectedambiguityfile);
+  document.getElementById("ambiguityfile").disabled = true;
+  if(selectedambiguityfile == "yes"){
+    capturing.style.display = "block";
+
+  } else {
+    ambiguityranking.style.display = "block";
+  }
+  ambiguityfiling.style.display = "none";
+}
+
+function changeambiguityrank(){
+  const selectedambiguityrank = document.getElementById("ambiguityrank").value;
+  //alert(selectedambiguityrank);
+  document.getElementById("ambiguityrank").disabled = true;
+  capturing.style.display = "block";
+  ambiguityranking.style.display = "none";
+}
+
+function changecapture(){
+  const selectedcapture = document.getElementById("capture").value;
+  //alert(selectedcapture);
+  document.getElementById("capture").disabled = true;
+  if(document.getElementById("piece").value != "P"){
+  checking.style.display = "block";
+  } else {
+    if(document.getElementById("destinationrank").value == 1 || document.getElementById("destinationrank").value == 8){
+      pawnpromoting.style.display = "block";
+    } else {
+      checking.style.display = "block";  
+      }
+    }
+  capturing.style.display = "none";
+}
+
+function changepromotion(){
+  const selectedpromotion = document.getElementById("promotion").value;
+  //alert(selectedpromotion);
+  document.getElementById("promotion").disabled = true;
+  checking.style.display = "block";
+  pawnpromoting.style.display = "none";
+}
+
+function changecheck(){
+    const selectedcheck = document.getElementById("check").value;
+    var resultingmove = ""
+  //alert(selectedcheck);
+  if (document.getElementById("piece").value == "K"){
+    if (document.getElementById("castle").value != "normal"){
+//      const resultingmove = document.getElementById("castle").value + selectedcheck);
+      //alert("checkpoint");
+      resultingmove = document.getElementById("castle").value + selectedcheck;
+      
+      //alert(resultingmove);
+    }
+    else {
+      resultingmove = document.getElementById("piece").value +
+      document.getElementById("capture").value+
+      document.getElementById("destinationfile").value+
+      document.getElementById("destinationrank").value+
+      document.getElementById("check").value;
+    }
+  } else if (document.getElementById("piece").value == "P"){
+     if (document.getElementById("capture").value == "x"){
+      resultingmove = document.getElementById("originfile").value +
+      document.getElementById("capture").value+
+      document.getElementById("destinationfile").value+
+      document.getElementById("destinationrank").value+
+      document.getElementById("promotion").value+
+      document.getElementById("check").value;
+     } else {
+      resultingmove = document.getElementById("destinationfile").value+
+      document.getElementById("destinationrank").value+
+      document.getElementById("promotion").value+
+      document.getElementById("check").value;
+     }
+    
+  } else {
+    if (document.getElementById("ambiguity").value == "yes"){
+      if(document.getElementById("ambiguityfile").value == "yes") {
+        resultingmove = document.getElementById("piece").value +
+        document.getElementById("originfile").value+
+        document.getElementById("capture").value+
+        document.getElementById("destinationfile").value+
+        document.getElementById("destinationrank").value+
+        document.getElementById("check").value;
+
+      } else if(document.getElementById("ambiguityrank").value == "yes") {
+        resultingmove = document.getElementById("piece").value +
+        document.getElementById("originrank").value+
+        document.getElementById("capture").value+
+        document.getElementById("destinationfile").value+
+        document.getElementById("destinationrank").value+
+        document.getElementById("check").value;
+      } else {
+        resultingmove =document.getElementById("piece").value +
+        document.getElementById("originfile").value+
+        document.getElementById("originrank").value+
+        document.getElementById("capture").value+
+        document.getElementById("destinationfile").value+
+        document.getElementById("destinationrank").value+
+        document.getElementById("check").value;
+      }
+
+    } else {
+      resultingmove =document.getElementById("piece").value +
+      document.getElementById("capture").value+
+      document.getElementById("destinationfile").value+
+      document.getElementById("destinationrank").value+
+      document.getElementById("check").value;
+    }
+
+  }
+
+  document.getElementById("check").disabled = true;
+  document.getElementById('result').innerHTML = "Your Move Was: <br> <b><i>" + resultingmove +"</i></b>";  
+  checking.style.display = "none";
+  result.style.display = "block";
+}
+
+function refreshPage(){
+    window.location.reload();
+} 
+
+</script>
+
+</html>
